@@ -1,13 +1,13 @@
-package com.company.demo;
+package com.company.quoteapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QuoteWordMagicBallApplication {
+public class QuoteApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(QuoteWordMagicBallApplication.class, args);
+		SpringApplication.run(QuoteApiApplication.class, args);
 	}
 
 }

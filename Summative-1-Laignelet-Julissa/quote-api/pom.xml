@@ -9,14 +9,18 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.company</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>quote-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Quote_Word_MagicBall</name>
-	<description>Summative Project 1</description>
+	<name>quote-api</name>
+	<description>Summative Project 1 - Quote API</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

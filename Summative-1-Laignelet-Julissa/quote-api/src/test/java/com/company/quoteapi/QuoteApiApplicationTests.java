@@ -1,10 +1,10 @@
-package com.company.demo;
+package com.company.quoteapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class QuoteWordMagicBallApplicationTests {
+class QuoteApiApplicationTests {
 
 	@Test
 	void contextLoads() {
