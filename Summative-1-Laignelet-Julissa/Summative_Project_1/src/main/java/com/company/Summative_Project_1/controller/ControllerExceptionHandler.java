@@ -1,12 +1,11 @@
-package com.company.quoteapi.controller;
+package com.company.Summative_Project_1.controller;
 
-import com.company.quoteapi.model.CustomErrorResponse;
+import com.company.Summative_Project_1.model.CustomErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 

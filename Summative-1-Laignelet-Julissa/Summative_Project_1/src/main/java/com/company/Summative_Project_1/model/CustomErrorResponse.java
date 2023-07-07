@@ -1,8 +1,7 @@
-package com.company.quoteapi.model;
+package com.company.Summative_Project_1.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
-
 public class CustomErrorResponse {
     String errorMsg;
     int status;
@@ -48,4 +47,3 @@ public class CustomErrorResponse {
         this.timestamp = timestamp;
     }
 }
-

@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.company</groupId>
-	<artifactId>quote-api</artifactId>
+	<artifactId>Summative_Project_1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>quote-api</name>
-	<description>Summative Project 1 - Quote API</description>
+	<name>Summative_Project_1</name>
+	<description>Magic 8 ball, Word, and Quotes APIs</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -30,11 +30,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.8</version>
 		</dependency>
 	</dependencies>
 

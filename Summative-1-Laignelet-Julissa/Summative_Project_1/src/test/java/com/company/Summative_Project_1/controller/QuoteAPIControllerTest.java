@@ -1,6 +1,6 @@
-package com.company.quoteapi.controller;
+package com.company.Summative_Project_1.controller;
 
-import com.company.quoteapi.model.Quote;
+import com.company.Summative_Project_1.model.Quote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

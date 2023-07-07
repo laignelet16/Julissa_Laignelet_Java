@@ -1,4 +1,4 @@
-package com.company.quoteapi.model;
+package com.company.Summative_Project_1.model;
 
 //provides the ability to create a unique quote that includes two more characteristics --> id and author
 public class Quote {

@@ -1,13 +1,13 @@
-package com.company.quoteapi;
+package com.company.Summative_Project_1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QuoteApiApplication {
+public class SummativeProject1Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(QuoteApiApplication.class, args);
+		SpringApplication.run(SummativeProject1Application.class, args);
 	}
 
 }
