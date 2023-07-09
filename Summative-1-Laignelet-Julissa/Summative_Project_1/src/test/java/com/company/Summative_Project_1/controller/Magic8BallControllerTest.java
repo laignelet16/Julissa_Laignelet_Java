@@ -44,4 +44,19 @@ public class Magic8BallControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
     }
+    @Test
+    public void getMagic8BallAnswerWithNoProvidedQuestion() throws Exception {
+        // Question
+        String question = "";
+
+        String outputJson = mapper.writeValueAsString(question);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/magic")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(question))
+                )
+                .andDo(print())
+                .andExpect(status().isCreated());
+    }
 }
