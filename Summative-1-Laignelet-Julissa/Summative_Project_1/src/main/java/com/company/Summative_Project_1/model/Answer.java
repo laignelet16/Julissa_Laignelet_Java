@@ -1,5 +1,6 @@
 package com.company.Summative_Project_1.model;
 
+//provides the ability to create a unique answer from magic 8 ball that includes two more characteristics --> id and question
 public class Answer {
     private int id;
     private String question;
