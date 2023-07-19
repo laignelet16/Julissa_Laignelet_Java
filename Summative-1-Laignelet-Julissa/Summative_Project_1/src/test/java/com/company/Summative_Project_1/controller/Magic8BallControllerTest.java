@@ -31,30 +31,32 @@ public class Magic8BallControllerTest {
 
     @Test
     public void getMagic8BallAnswer() throws Exception {
-        // Question
-        String question = "Will it rain today?";
+        // Create a new Answer which contains the question
+        Answer testQuestion = new Answer();
+        testQuestion.setQuestion("Will it rain today?");
 
-        String outputJson = mapper.writeValueAsString(question);
+        String outputJson = mapper.writeValueAsString(testQuestion);
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/magic")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(question))
+                        .content(mapper.writeValueAsString(testQuestion))
                 )
                 .andDo(print())
                 .andExpect(status().isCreated());
     }
     @Test
     public void getMagic8BallAnswerWithNoProvidedQuestion() throws Exception {
-        // Question
-        String question = "";
+        // Create a new Answer which contains the question
+        Answer testQuestion = new Answer();
+        testQuestion.setQuestion("");
 
-        String outputJson = mapper.writeValueAsString(question);
+        String outputJson = mapper.writeValueAsString(testQuestion);
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/magic")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(question))
+                        .content(mapper.writeValueAsString(testQuestion))
                 )
                 .andDo(print())
                 .andExpect(status().isCreated());
