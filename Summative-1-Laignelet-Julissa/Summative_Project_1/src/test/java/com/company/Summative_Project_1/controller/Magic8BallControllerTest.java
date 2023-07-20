@@ -8,12 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(Magic8BallController.class)
 public class Magic8BallControllerTest {
@@ -32,33 +38,24 @@ public class Magic8BallControllerTest {
     @Test
     public void getMagic8BallAnswer() throws Exception {
         // Create a new Answer which contains the question
-        Answer testQuestion = new Answer();
-        testQuestion.setQuestion("Will it rain today?");
-
-        String outputJson = mapper.writeValueAsString(testQuestion);
-
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/magic")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(testQuestion))
-                )
-                .andDo(print())
-                .andExpect(status().isCreated());
+        String requestbody = "Test Question";
+        mockMvc.perform(post("/magic")
+                        .contentType("application/json")
+                        .content(requestbody))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.question").value("Test Question"))
+                .andExpect(jsonPath("$.answer").exists())
+                .andExpect(jsonPath("$.id").exists());
     }
+
     @Test
     public void getMagic8BallAnswerWithNoProvidedQuestion() throws Exception {
         // Create a new Answer which contains the question
-        Answer testQuestion = new Answer();
-        testQuestion.setQuestion("");
+        mockMvc.perform(post("/magic")
+                .contentType("application/json"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.question").doesNotExist())
+                .andExpect(jsonPath("$.answer").exists());
 
-        String outputJson = mapper.writeValueAsString(testQuestion);
-
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/magic")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(testQuestion))
-                )
-                .andDo(print())
-                .andExpect(status().isCreated());
     }
 }
