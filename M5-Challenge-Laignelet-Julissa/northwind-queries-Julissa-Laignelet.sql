@@ -1,8 +1,6 @@
 use northwind; 
 
 -- what are the categories of products in the database? 
--- filter only one of each shows up 
--- no duplicates
 select distinct category from products;
 
 
