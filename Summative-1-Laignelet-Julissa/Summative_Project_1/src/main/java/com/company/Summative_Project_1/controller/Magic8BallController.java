@@ -34,12 +34,21 @@ public class Magic8BallController {
     // route to use the POST method in order to get an Answer from the Magic 8 ball after giving a question
     @RequestMapping(value = "/magic", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Answer getMagic8BallAnswer(@RequestBody Optional<String> input){
-        String answerText = generateRandomAnswer();
-        int id = idCounter++;
+    public Answer magic(@RequestBody Optional<Map<String, String>> requestBody) {
+        String question = null;
 
-        String question = input.orElse(null);
-        return new Answer(id, question, answerText);
+        if (requestBody.isPresent()) {
+            question = requestBody.get().get("question");
+        }
+
+        String randomAnswer = generateRandomAnswer();
+
+        Answer answer = new Answer();
+        answer.setId(idCounter++);
+        answer.setQuestion(question);
+        answer.setAnswer(randomAnswer);
+
+        return answer;
     }
 
     private String generateRandomAnswer() {
