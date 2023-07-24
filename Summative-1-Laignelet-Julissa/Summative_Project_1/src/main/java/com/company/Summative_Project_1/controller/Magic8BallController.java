@@ -37,6 +37,7 @@ public class Magic8BallController {
     public Answer magic(@RequestBody Optional<Map<String, String>> requestBody) {
         String question = null;
 
+        // extracts the value from the key "question"
         if (requestBody.isPresent()) {
             question = requestBody.get().get("question");
         }
