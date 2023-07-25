@@ -1,7 +1,7 @@
 package com.company.Summative_Project_1.controller;
 
 
-import com.company.Summative_Project_1.model.Word;
+import com.company.Summative_Project_1.model.Definition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class WordAPIControllerTest {
     private ObjectMapper mapper = new ObjectMapper();
 
     // A list of quotes for testing purposes
-    private List<Word> wordList;
+    private List<Definition> wordList;
 
     @BeforeEach
     public void setUp() {

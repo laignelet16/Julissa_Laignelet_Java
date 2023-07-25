@@ -1,12 +1,12 @@
 package com.company.Summative_Project_1.model;
 
 //provides the ability to create a unique word that includes two more characteristics --> id and definition
-public class Word {
+public class Definition {
     private int id;
     private String word;
     private String defintion;
 
-    public Word (int id, String word, String defintion) {
+    public Definition(int id, String word, String defintion) {
         this.id = id;
         this.word = word;
         this.defintion = defintion;
