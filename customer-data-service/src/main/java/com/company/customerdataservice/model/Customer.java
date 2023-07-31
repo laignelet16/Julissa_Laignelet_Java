@@ -3,36 +3,29 @@ package com.company.customerdataservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name="customer")
-public class Customer {
+public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String firstName;
     private String lastName;
-
     private String email;
     private String company;
     private String phone;
-
     private String address1;
-
     private String address2;
-
     private String city;
-
     private String state;
-
-    private Integer postalCode;
-
+    private String postalCode;
     private String country;
-
 
     public Integer getId() {
         return id;
@@ -114,11 +107,11 @@ public class Customer {
         return state;
     }
 
-    public void setPostalCode(Integer postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    public Integer getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
