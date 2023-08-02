@@ -1,163 +1,175 @@
 package com.company.customerdataservice.repository;
-import com.company.customerdataservice.controller.CustomerController;
 import com.company.customerdataservice.model.Customer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import java.util.List;
+import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
 
-@WebMvcTest(CustomerController.class)
+@SpringBootTest
 public class CustomerRepositoryTests {
     @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
     private CustomerRepository customerRepository;
 
-    private ObjectMapper mapper = new ObjectMapper();
-
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         customerRepository.deleteAll();
     }
 
+    // test makes sures the customer is saved in repository and retrieves the details
     @Test
-    public void shouldCreateCustomer()throws Exception {
-        Customer customer1 = new Customer();
-        customer1.setId(1);
-        customer1.setFirstName("Joe");
-        customer1.setLastName("Doe");
-        customer1.setCity("Alberta");
-        customer1.setPhone("201-456-8879");
-        customer1.setCompany("Verizon");
-        customer1.setState("New York");
-        customer1.setPostalCode("54678");
-        customer1.setAddress1("150 Pure Life");
-        customer1.setAddress2("205 Poland Spring");
-        customer1.setCountry("United States of America");
-        customer1.setEmail("freshwater@river.com");
+    public void shouldCreateNewCustomer() {
+        Customer newCustomer = new Customer();
+        newCustomer.setPostalCode("75436");
+        newCustomer.setLastName("Lavendar");
+        newCustomer.setFirstName("Bob");
+        newCustomer.setEmail("lavendarbob@gmail.com");
+        newCustomer.setCountry("USA");
+        newCustomer.setCity("Dallas");
+        newCustomer.setState("Texas");
+        newCustomer.setPhone("315-670-7658");
+        newCustomer.setCompany("Amazon");
+        newCustomer.setAddress1("Lavendar Tree Ave");
+        newCustomer.setAddress2("Petunia Wilderness Lane");
 
-//      save the customers using 'POST /customers' endpoint
-        customerRepository.save(customer1);
+        newCustomer = customerRepository.save(newCustomer);
 
-        String inputJson = mapper.writeValueAsString(customer1);
-
-        mockMvc.perform(post("/customers").content(inputJson)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isCreated());
+        Optional<Customer> getCustomer = customerRepository.findById(newCustomer.getId());
+        assertEquals(getCustomer.get(), newCustomer);
     }
 
+    // tests makes sures the customer gets updated and retrieved with the details
     @Test
-    public void shouldUpdateCustomer() throws Exception {
-        Customer customer = new Customer();
-        customer.setId(42);
-        customer.setAddress1("1800 Panda Express");
-        customer.setAddress2("1801  Takeout");
-        customer.setCity("Brooklyn");
-        customer.setCompany("Walmart");
-        customer.setCountry("United States");
-        customer.setPostalCode("07087");
-        customer.setEmail("panda23@express.com");
-        customer.setFirstName("Lo");
-        customer.setLastName("Mein");
-        customer.setState("New York");
-        customer.setPhone("123-654-0987");
+    public void shouldUpdateCustomer() {
+        Customer updatedCustomer = new Customer();
+        updatedCustomer.setPostalCode("12345");
+        updatedCustomer.setLastName("Build");
+        updatedCustomer.setFirstName("Bob");
+        updatedCustomer.setEmail("builder@gmail.com");
+        updatedCustomer.setCountry("USA");
+        updatedCustomer.setCity("Houston");
+        updatedCustomer.setState("Dallas");
+        updatedCustomer.setPhone("315-680-7648");
+        updatedCustomer.setCompany("Forever 21");
+        updatedCustomer.setAddress1("Builder House Ave");
+        updatedCustomer.setAddress2("Bob Wilderness Lane");
 
-        customerRepository.save(customer);
+        customerRepository.save(updatedCustomer);
+        updatedCustomer.setCompany("Verizon");
+        customerRepository.save(updatedCustomer);
 
-        customer.setLastName("Orange");
-
-//     save the updated customer using 'put /customers' endpoint
-       customerRepository.save(customer);
-
-       String inputJson = mapper.writeValueAsString(customer);
-       mockMvc.perform(put("/customers")
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content(inputJson))
-               .andDo(print())
-               .andExpect(status().isNoContent());
+        Optional<Customer> customer1 = customerRepository.findById(updatedCustomer.getId());
+        assertEquals(customer1.get(), updatedCustomer);
     }
 
+    // tests makes sures the customer get deleted and nothing appears
     @Test
-    public void shouldDeleteCustomer() throws Exception {
-        Customer customer2 = new Customer();
-        customer2.setId(1);
-        customer2.setFirstName("Petunia");
-        customer2.setLastName("Orchid");
-        customer2.setEmail("flowers@allyearlong.org");
-        customer2.setPostalCode("07058");
-        customer2.setState("Georgia");
-        customer2.setCountry("United States of America");
-        customer2.setCity("Atlanta");
-        customer2.setPhone("201-723-3456");
-        customer2.setAddress1("124 Flower Lane");
-        customer2.setAddress2("136 Flower Ave");
-        customer2.setCompany("Botanical Museum");
+    public void shouldDeleteCustomer() {
+        Customer deleteCustomer = new Customer();
+        deleteCustomer.setPostalCode("12345");
+        deleteCustomer.setLastName("Patty");
+        deleteCustomer.setFirstName("Summer");
+        deleteCustomer.setEmail("summertime@gmail.com");
+        deleteCustomer.setCountry("USA");
+        deleteCustomer.setCity("West Palm Beach");
+        deleteCustomer.setState("Florida");
+        deleteCustomer.setPhone("315-312-5467");
+        deleteCustomer.setCompany("Netflix");
+        deleteCustomer.setAddress1("Production Ave");
+        deleteCustomer.setAddress2("Hollywood Lane");
+        deleteCustomer.setId(21);
 
-        customerRepository.save(customer2);
+        deleteCustomer = customerRepository.save(deleteCustomer);
 
-//      save the customer and then use 'delete /customers' endpoint
-        mockMvc.perform(delete("/customers/{id}", customer2.getId()))
-                .andDo(print())
-                .andExpect(status().isNoContent());
+        Optional<Customer> deleteCustomer1 = customerRepository.findById(deleteCustomer.getId());
+
+        assertEquals(deleteCustomer1.get(), deleteCustomer);
+
+        customerRepository.deleteById(deleteCustomer.getId());
+
+        deleteCustomer1 = customerRepository.findById(deleteCustomer.getId());
+
+        assertFalse(deleteCustomer1.isPresent());
     }
 
+    // test makes sures the customer can be grabbed by id
     @Test
-    public void shouldGetCustomerById() throws Exception {
-        Customer customer3 = new Customer();
-        customer3.setId(32);
-        customer3.setCompany("Google");
-        customer3.setAddress1("300 Google Lane");
-        customer3.setAddress2("440 Google Ave");
-        customer3.setCity("Seatle");
-        customer3.setState("Washington");
-        customer3.setPhone("1-800-987-234");
-        customer3.setCountry("United States of America");
-        customer3.setEmail("newgoogly@google.com");
-        customer3.setFirstName("Practice");
-        customer3.setLastName("Makes Perfect");
-        customer3.setPostalCode("73245");
+    public void shouldGetCustomerById() {
+        Customer getCustomerId = new Customer();
+        getCustomerId.setPostalCode("56789");
+        getCustomerId.setLastName("Cullen");
+        getCustomerId.setFirstName("Violet");
+        getCustomerId.setEmail("twilight@gmail.com");
+        getCustomerId.setCountry("USA");
+        getCustomerId.setCity("Phoenix");
+        getCustomerId.setState("Arizona");
+        getCustomerId.setPhone("123-654-9876");
+        getCustomerId.setCompany("Meta");
+        getCustomerId.setAddress1("Social Media Ave");
+        getCustomerId.setAddress2("Social Lane");
+        customerRepository.save(getCustomerId );
 
-//      save the customer and then find with the id using the get
-        customerRepository.save(customer3);
-        mockMvc.perform(get("/customers/{id}", customer3.getId()))
-                .andDo(print())
-                .andExpect(status().isOk());
+        Customer getCustomerId1 = new Customer();
+        getCustomerId1.setPostalCode("56789");
+        getCustomerId1.setLastName("Perkins");
+        getCustomerId1.setFirstName("Stephanie");
+        getCustomerId1.setEmail("twilight@gmail.com");
+        getCustomerId1.setCountry("USA");
+        getCustomerId1.setCity("Atlanta");
+        getCustomerId1.setState("Georgia");
+        getCustomerId1.setPhone("354-635-1077");
+        getCustomerId1.setCompany("Citadel");
+        getCustomerId1.setAddress1("Trading Ave");
+        getCustomerId1.setAddress2("Fintech Lane");
+        customerRepository.save(getCustomerId1);
+
+        Optional<Customer> foundCustomer = customerRepository.findById(getCustomerId.getId());
+
+        assertEquals(foundCustomer.get(), getCustomerId);
     }
 
+    // tests makes sures customers can get grabbed by state
     @Test
-    public void shouldGetCustomerByState() throws Exception {
-        Customer customer4 = new Customer();
-        customer4.setId(64);
-        customer4.setCompany("Avalon");
-        customer4.setAddress1("500 Plant Tree");
-        customer4.setAddress2("560 Laughter Ave");
-        customer4.setCity("Trenton");
-        customer4.setState("New Jersey");
-        customer4.setPhone("1-810-310-4567");
-        customer4.setCountry("United States of America");
-        customer4.setEmail("climate@time.com");
-        customer4.setFirstName("Jessica");
-        customer4.setLastName("Mayhem");
-        customer4.setPostalCode("26789");
+    public void shouldGetCustomerByState() {
+        Customer getCustomerState = new Customer();
+        getCustomerState.setPostalCode("45678");
+        getCustomerState.setLastName("Dixie");
+        getCustomerState.setFirstName("Hart");
+        getCustomerState.setEmail("dixieDr@gmail.com");
+        getCustomerState.setCountry("USA");
+        getCustomerState.setCity("Phoenix");
+        getCustomerState.setState("Arizona");
+        getCustomerState.setPhone("123-655-9870");
+        getCustomerState.setCompany("Hackensack Medical Hospital");
+        getCustomerState.setAddress1("Doctor Village Ave");
+        getCustomerState.setAddress2("Nurse Lane");
+        getCustomerState.setId(10);
 
-//      save the customer and then find with the state using the get
-        customerRepository.save(customer4);
-        mockMvc.perform(get("/customers/state/{state}", customer4.getState()))
-                .andDo(print())
-                .andExpect(status().isOk());
+        getCustomerState = customerRepository.save(getCustomerState);
+
+        Customer getCustomerState1 = new Customer();
+        getCustomerState1.setPostalCode("34400");
+        getCustomerState1.setLastName("Walkins");
+        getCustomerState1.setFirstName("Dickens");
+        getCustomerState1.setEmail("authorville@gmail.com");
+        getCustomerState1.setCountry("USA");
+        getCustomerState1.setCity("Phoenix");
+        getCustomerState1.setState("Arizona");
+        getCustomerState1.setPhone("236-237-9387");
+        getCustomerState1.setCompany("Staples");
+        getCustomerState1.setAddress1("Paper Town Ave");
+        getCustomerState1.setAddress2("Pencil Pane");
+        getCustomerState1.setId(6);
+
+        getCustomerState1 = customerRepository.save(getCustomerState1);
+
+        List<Customer> foundCustomers = customerRepository.findByState(getCustomerState.getState());
+
+        assertEquals(foundCustomers.size(), 2);
     }
+
 }
