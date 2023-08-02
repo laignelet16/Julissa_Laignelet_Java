@@ -12,8 +12,11 @@ import java.util.Optional;
 
 @RestController
 public class CustomerController {
+    private final CustomerRepository repo;
     @Autowired
-    CustomerRepository repo;
+    public CustomerController(CustomerRepository repo) {
+        this.repo = repo;
+    }
 
 //  endpoint to add a new customer
     @PostMapping("/customers")
