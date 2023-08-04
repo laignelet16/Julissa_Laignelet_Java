@@ -14,8 +14,9 @@ import javax.persistence.Table;
 @Table(name="Publisher")
 public class Publisher {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int publisherId;
+    @Column(name="publisher_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private String street;
     private String city;
@@ -25,11 +26,11 @@ public class Publisher {
     private String email;
 
     public int getPublisherId() {
-        return publisherId;
+        return id;
     }
 
     public void setPublisherId(int publisherId) {
-        this.publisherId = publisherId;
+        this.id = publisherId;
     }
 
     public String getName() {
@@ -93,11 +94,11 @@ public class Publisher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publisher publisher = (Publisher) o;
-        return publisherId == publisher.publisherId && Objects.equals(name, publisher.name) && Objects.equals(street, publisher.street) && Objects.equals(city, publisher.city) && Objects.equals(state, publisher.state) && Objects.equals(postalCode, publisher.postalCode) && Objects.equals(phone, publisher.phone) && Objects.equals(email, publisher.email);
+        return id == publisher.id && Objects.equals(name, publisher.name) && Objects.equals(street, publisher.street) && Objects.equals(city, publisher.city) && Objects.equals(state, publisher.state) && Objects.equals(postalCode, publisher.postalCode) && Objects.equals(phone, publisher.phone) && Objects.equals(email, publisher.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(publisherId, name, street, city, state, postalCode, phone, email);
+        return Objects.hash(id, name, street, city, state, postalCode, phone, email);
     }
 }

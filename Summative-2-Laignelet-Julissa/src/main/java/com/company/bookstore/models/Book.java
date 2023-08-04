@@ -14,21 +14,39 @@ import javax.persistence.Table;
 @Table(name="Book")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int bookId;
+    @Column(name="book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String isbn;
     private String publishDate;
+
+    @ManyToOne
+    @JoinColumn(name="book_id")
+    @Column(name="author_id")
     private int authorId;
     private String title;
+    @ManyToOne
+    @JoinColumn(name="book_id")
+    @Column(name = "publisher_id")
     private int publisherId;
-    private int price;
+    private double price;
+
+    public Book(int bookId, String isbn, String publishDate, int authorId, String title, int publisherId, double price) {
+        this.id = bookId;
+        this.isbn = isbn;
+        this.publishDate = publishDate;
+        this.authorId = authorId;
+        this.title = title;
+        this.publisherId = publisherId;
+        this.price = price;
+    }
 
     public int getBookId() {
-        return bookId;
+        return id;
     }
 
     public void setBookId(int bookId) {
-        this.bookId = bookId;
+        this.id = bookId;
     }
 
     public String getIsbn() {
@@ -71,11 +89,11 @@ public class Book {
         this.publisherId = publisherId;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -84,11 +102,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return bookId == book.bookId && authorId == book.authorId && publisherId == book.publisherId && price == book.price && Objects.equals(isbn, book.isbn) && Objects.equals(publishDate, book.publishDate) && Objects.equals(title, book.title);
+        return id == book.id && authorId == book.authorId && publisherId == book.publisherId && Double.compare(book.price, price) == 0 && Objects.equals(isbn, book.isbn) && Objects.equals(publishDate, book.publishDate) && Objects.equals(title, book.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, isbn, publishDate, authorId, title, publisherId, price);
+        return Objects.hash(id, isbn, publishDate, authorId, title, publisherId, price);
     }
 }

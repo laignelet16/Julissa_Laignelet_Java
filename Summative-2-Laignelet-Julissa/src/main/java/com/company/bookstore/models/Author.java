@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name="Author")
+@Table(name="author")
 public class Author {
 
     // constraints in the book
@@ -21,8 +21,9 @@ public class Author {
     // annotations not only with class and fields --> creating the table in java in sql
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int authorId;
+    @Column(name="author_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String firstName;
     private String lastName;
     private String street;
@@ -33,11 +34,11 @@ public class Author {
     private String email;
 
     public int getAuthorId() {
-        return authorId;
+        return id;
     }
 
     public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+        this.id = authorId;
     }
 
     public String getFirstName() {
@@ -109,11 +110,11 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return authorId == author.authorId && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(street, author.street) && Objects.equals(city, author.city) && Objects.equals(state, author.state) && Objects.equals(postalCode, author.postalCode) && Objects.equals(phone, author.phone) && Objects.equals(email, author.email);
+        return id == author.id && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(street, author.street) && Objects.equals(city, author.city) && Objects.equals(state, author.state) && Objects.equals(postalCode, author.postalCode) && Objects.equals(phone, author.phone) && Objects.equals(email, author.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(authorId, firstName, lastName, street, city, state, postalCode, phone, email);
+        return Objects.hash(id, firstName, lastName, street, city, state, postalCode, phone, email);
     }
 }
