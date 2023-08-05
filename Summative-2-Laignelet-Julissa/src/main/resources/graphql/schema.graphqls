@@ -1,40 +1,43 @@
 type Publisher {
-  id: ID!
-  name: String!
-  street: String!
-  city: String!
-  state: String!
-  postalCode: String!
-  phone: String!
-  email: String!
+    id: ID!
+    name: String!
+    street: String!
+    city: String!
+    state: String!
+    postalCode: String!
+    phone: String!
+    email: String!
+    books: [Book]
 }
 
 type Author {
-  id: ID!
-  firstName: String!
-  lastName: String!
-  street: String!
-  city: String!
-  state: String!
-  postalCode: String!
-  phone: String!
-  email: String!
+    id: ID!
+    firstName: String!
+    lastName: String!
+    street: String!
+    city: String!
+    state: String!
+    postalCode: String!
+    phone: String!
+    email: String!
+    books: [Book]
 }
 
 type Book {
-  id: ID!
-  isbn: String!
-  publishDate: String!
-  author: Author!
-  title: String!
-  publisher: Publisher
-  price: Int!
+    id: ID!
+    isbn: String!
+    publishDate: String!
+    author: Author!
+    title: String!
+    publisher: Publisher
+    price: Int!
 }
 
 type Query {
-  findPublisherById(id:ID!): Publisher
-  findAuthorById(id:ID!): Author
-  findBookById(id:ID!): Book
+    findBookById(id:ID!): Book
+    findBooksByAuthorId(authorId: ID!):[Book]
+    findAuthorById(id:ID!): Author
+    findPublisherById(id:ID!): Publisher
 }
 
 type Mutation {
@@ -44,9 +47,9 @@ type Mutation {
     updateBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Int!): Book
     addPublisher(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Publisher
     updatePublisher(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Publisher
-    deleteAuthor(id: ID!): Boolean
-    deleteBook(id: ID!): Boolean
-    deletePublisher(id: ID!): Boolean
+    deleteAuthorById(id: ID!): Boolean
+    deleteBookById(id: ID!): Boolean
+    deletePublisherById(id: ID!): Boolean
 }
 
 

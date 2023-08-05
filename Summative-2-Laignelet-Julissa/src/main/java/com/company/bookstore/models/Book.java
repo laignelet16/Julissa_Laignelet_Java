@@ -14,37 +14,37 @@ import javax.persistence.Table;
 @Table(name="Book")
 public class Book {
     @Id
-    @Column(name="book_id")
+    @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String isbn;
     private String publishDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
-    @JoinColumn(name="author_id")
-    private int authorId;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
     private String title;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
-    @JoinColumn(name="publisher_id")
-    private int publisherId;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
     private double price;
 
-    public Book(int bookId, String isbn, String publishDate, int authorId, String title, int publisherId, double price) {
-        this.id = bookId;
+    public Book(int id, String isbn, String publishDate, Author author, String title, Publisher publisher, double price) {
+        this.id = id;
         this.isbn = isbn;
         this.publishDate = publishDate;
-        this.authorId = authorId;
+        this.author = author;
         this.title = title;
-        this.publisherId = publisherId;
+        this.publisher = publisher;
         this.price = price;
     }
 
-    public int getBookId() {
+    public int getId() {
         return id;
     }
 
-    public void setBookId(int bookId) {
-        this.id = bookId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getIsbn() {
@@ -63,12 +63,12 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -79,12 +79,12 @@ public class Book {
         this.title = title;
     }
 
-    public int getPublisherId() {
-        return publisherId;
+    public Publisher getPublisher() {
+        return publisher;
     }
 
-    public void setPublisherId(int publisherId) {
-        this.publisherId = publisherId;
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public double getPrice() {
@@ -100,11 +100,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && authorId == book.authorId && publisherId == book.publisherId && Double.compare(book.price, price) == 0 && Objects.equals(isbn, book.isbn) && Objects.equals(publishDate, book.publishDate) && Objects.equals(title, book.title);
+        return id == book.id && Double.compare(book.price, price) == 0 && Objects.equals(isbn, book.isbn) && Objects.equals(publishDate, book.publishDate) && Objects.equals(author, book.author) && Objects.equals(title, book.title) && Objects.equals(publisher, book.publisher);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isbn, publishDate, authorId, title, publisherId, price);
+        return Objects.hash(id, isbn, publishDate, author, title, publisher, price);
     }
 }

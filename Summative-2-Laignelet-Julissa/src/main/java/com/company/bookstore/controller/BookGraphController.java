@@ -6,7 +6,6 @@ import com.company.bookstore.repository.AuthorRepository;
 import com.company.bookstore.repository.BookRepository;
 import com.company.bookstore.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -40,9 +39,13 @@ public class BookGraphController {
 
     // needs implementation of all fields to create book in bookRepository
     @QueryMapping
-    public Book findBookByAuthorId(@Argument Author author) {
-        Optional<Book> returnVal = bookRepository.findById(author.getAuthorId());
-        return returnVal.orElse(null);
+    public List<Book> findBooksByAuthorId(@Argument int authorId) {
+        List<Book> returnVal = bookRepository.findByAuthorId(authorId);
+        if (returnVal.isEmpty()) {
+            return returnVal;
+        } else {
+            return returnVal;
+        }
     }
 
     @MutationMapping
@@ -50,16 +53,16 @@ public class BookGraphController {
             @Argument int id,
             @Argument String isbn,
             @Argument String publishDate,
-            @Argument int authorId,
+            @Argument Author author,
             @Argument String title,
-            @Argument int publisherId,
+            @Argument Publisher publisher,
             @Argument double price
     ) {
         //makes sures Author and publishers exist
-        Author author = authorRepository.findById(authorId).orElseThrow();
-        Publisher publisher = publisherRepository.findById(publisherId).orElseThrow();
+        Author checkAuthor = authorRepository.findById(author.getAuthorId()).orElseThrow();
+        Publisher checkPublisher = publisherRepository.findById(publisher.getPublisherId()).orElseThrow();
 
-        Book newBook = new Book(id, isbn, publishDate, authorId, title, publisherId, price);
+        Book newBook = new Book(id, isbn, publishDate, author, title, publisher, price);
         return bookRepository.save(newBook);
     }
 
@@ -78,11 +81,12 @@ public class BookGraphController {
         Publisher publisher = publisherRepository.findById(publisherId).orElseThrow();
         Book updateBook = bookRepository.findById(id).orElseThrow();
 
-        updateBook.setBookId(id);
+        updateBook.setId(id);
         updateBook.setIsbn(isbn);
         updateBook.setPublishDate(publishDate);
-        updateBook.setAuthorId(authorId);
+        updateBook.setAuthor(author);
         updateBook.setTitle(title);
+        updateBook.setPublisher(publisher);
         updateBook.setPrice(price);
 
         return bookRepository.save(updateBook);
