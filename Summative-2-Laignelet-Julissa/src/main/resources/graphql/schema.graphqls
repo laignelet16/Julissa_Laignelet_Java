@@ -1,40 +1,52 @@
 type Publisher {
-  publisher_id: Int!
+  id: ID!
   name: String!
   street: String!
   city: String!
   state: String!
-  postal_code: String!
+  postalCode: String!
   phone: String!
   email: String!
 }
 
 type Author {
-  author_id: Int!
-  first_name: String!
-  last_name: String!
+  id: ID!
+  firstName: String!
+  lastName: String!
   street: String!
   city: String!
   state: String!
-  postal_code: String!
+  postalCode: String!
   phone: String!
   email: String!
 }
 
 type Book {
-  book_id: Int!
+  id: ID!
   isbn: String!
-  publish_date: String!
-  author_id: Int!
+  publishDate: String!
+  author: Author!
   title: String!
-  publisher_id: Int!
+  publisher: Publisher
   price: Int!
 }
 
 type Query {
-  findPublisherById(id:Int): Publisher
-  findAuthorById(id:Int): Author
-  findBookById(id:Int): Book
+  findPublisherById(id:ID!): Publisher
+  findAuthorById(id:ID!): Author
+  findBookById(id:ID!): Book
+}
+
+type Mutation {
+    addAuthor(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Author
+    updateAuthor(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Author
+    addBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Int!): Book
+    updateBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Int!): Book
+    addPublisher(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Publisher
+    updatePublisher(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Publisher
+    deleteAuthor(id: ID!): Boolean
+    deleteBook(id: ID!): Boolean
+    deletePublisher(id: ID!): Boolean
 }
 
 

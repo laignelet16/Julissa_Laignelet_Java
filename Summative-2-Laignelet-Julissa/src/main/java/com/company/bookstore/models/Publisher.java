@@ -25,6 +25,17 @@ public class Publisher {
     private String phone;
     private String email;
 
+    public Publisher(int id, String name, String street, String city, String state, String postalCode, String phone, String email) {
+        this.id = id;
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public int getPublisherId() {
         return id;
     }

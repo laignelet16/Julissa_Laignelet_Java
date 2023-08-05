@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface PublisherRepository extends JpaRepository<Publisher, Integer> {
-    Publisher findByPublisherId (int bookId);
 }

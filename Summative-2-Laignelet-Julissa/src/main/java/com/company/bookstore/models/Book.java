@@ -20,14 +20,12 @@ public class Book {
     private String isbn;
     private String publishDate;
 
-    @ManyToOne
-    @JoinColumn(name="book_id")
-    @Column(name="author_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
+    @JoinColumn(name="author_id")
     private int authorId;
     private String title;
-    @ManyToOne
-    @JoinColumn(name="book_id")
-    @Column(name = "publisher_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
+    @JoinColumn(name="publisher_id")
     private int publisherId;
     private double price;
 
