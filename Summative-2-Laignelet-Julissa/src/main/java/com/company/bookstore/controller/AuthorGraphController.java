@@ -1,6 +1,5 @@
 package com.company.bookstore.controller;
 import com.company.bookstore.models.Author;
-import com.company.bookstore.models.Publisher;
 import com.company.bookstore.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -41,7 +40,7 @@ public class AuthorGraphController {
             @Argument String postalCode,
             @Argument String phone,
             @Argument String email) {
-        Author newAuthor = new Author(id, firstName, lastName, street, city, state, postalCode, phone, email);
+        Author newAuthor = new Author(firstName, lastName, street, city, state, postalCode, phone, email);
         return authorRepository.save(newAuthor);
     }
 

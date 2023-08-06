@@ -13,13 +13,6 @@ import javax.persistence.Table;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name="author")
 public class Author {
-
-    // constraints in the book
-    //schema.sql --> (look into that) join annotations --> one to many; many to one
-
-    // spring resource website (look at zoom and notes -> baeldung --> spring annotations (anything with spring))
-    // annotations not only with class and fields --> creating the table in java in sql
-
     @Id
     @Column(name="author_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +26,20 @@ public class Author {
     private String phone;
     private String email;
 
+    public Author() {}
     public Author(int id, String firstName, String lastName, String street, String city, String state, String postalCode, String phone, String email) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public Author(String firstName, String lastName, String street, String city, String state, String postalCode, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;

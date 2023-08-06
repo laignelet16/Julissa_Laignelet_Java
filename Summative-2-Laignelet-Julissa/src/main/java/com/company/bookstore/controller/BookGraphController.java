@@ -62,7 +62,7 @@ public class BookGraphController {
         Author checkAuthor = authorRepository.findById(author.getAuthorId()).orElseThrow();
         Publisher checkPublisher = publisherRepository.findById(publisher.getPublisherId()).orElseThrow();
 
-        Book newBook = new Book(id, isbn, publishDate, author, title, publisher, price);
+        Book newBook = new Book(isbn, publishDate, author, title, publisher, price);
         return bookRepository.save(newBook);
     }
 

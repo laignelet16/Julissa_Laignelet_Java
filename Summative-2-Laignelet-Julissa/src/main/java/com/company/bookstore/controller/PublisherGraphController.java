@@ -39,7 +39,7 @@ public class PublisherGraphController {
             @Argument String phone,
             @Argument String email
     ) {
-        Publisher newPublisher = new Publisher(id, name, street, city, state, postalCode, phone, email);
+        Publisher newPublisher = new Publisher(name, street, city, state, postalCode, phone, email);
         return publisherRepository.save(newPublisher);
     }
 
@@ -57,7 +57,6 @@ public class PublisherGraphController {
         //checks if the publisher already exists
         Publisher updatePublisher = publisherRepository.findById(id).orElseThrow();
 
-        updatePublisher.setPublisherId(id);
         updatePublisher.setName(name);
         updatePublisher.setStreet(street);
         updatePublisher.setCity(city);

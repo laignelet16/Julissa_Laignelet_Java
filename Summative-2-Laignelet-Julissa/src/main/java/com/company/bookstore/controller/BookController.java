@@ -1,6 +1,5 @@
 package com.company.bookstore.controller;
 
-import com.company.bookstore.models.Author;
 import com.company.bookstore.models.Book;
 import com.company.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
