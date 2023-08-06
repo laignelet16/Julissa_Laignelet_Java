@@ -1,3 +1,4 @@
+/*
 package com.company.bookstore.controller;
 
 import com.company.bookstore.models.Publisher;
@@ -72,3 +73,4 @@ public class PublisherGraphController {
         publisherRepository.deleteById(id);
     }
 }
+*/
