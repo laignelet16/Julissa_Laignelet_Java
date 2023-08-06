@@ -30,7 +30,7 @@ type Book {
     author: Author!
     title: String!
     publisher: Publisher
-    price: Int!
+    price: Float!
 }
 
 type Query {
@@ -43,8 +43,8 @@ type Query {
 type Mutation {
     addAuthor(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Author
     updateAuthor(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Author
-    addBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Int!): Book
-    updateBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Int!): Book
+    addBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Float!): Book
+    updateBook(id: ID!, isbn: String!, publishDate: String!, authorId: ID, title: String!, publisherId: ID, price: Float!): Book
     addPublisher(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Publisher
     updatePublisher(id: ID!, firstName: String!, lastName: String!, street: String!, city: String!, state: String!, postalCode: String!, phone: String!, email: String!): Publisher
     deleteAuthorById(id: ID!): Boolean
