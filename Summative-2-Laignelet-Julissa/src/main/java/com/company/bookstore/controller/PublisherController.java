@@ -15,7 +15,7 @@ public class PublisherController {
     @Autowired
     PublisherRepository publisherRepository;
 
-    @PostMapping("/pubishers")
+    @PostMapping("/publishers")
     @ResponseStatus(HttpStatus.CREATED)
     public Publisher addPublisher(@RequestBody Publisher publisher) {
         return publisherRepository.save(publisher);

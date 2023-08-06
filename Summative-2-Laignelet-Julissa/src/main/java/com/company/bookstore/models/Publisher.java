@@ -25,10 +25,16 @@ public class Publisher {
     private String phone;
     private String email;
 
-    public Publisher() {
-
+    public Publisher() {}
+    public Publisher(String name, String street, String city, String state, String postalCode, String phone, String email) {
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.email = email;
     }
-
     public Publisher(int id, String name, String street, String city, String state, String postalCode, String phone, String email) {
         this.id = id;
         this.name = name;
@@ -40,14 +46,12 @@ public class Publisher {
         this.email = email;
     }
 
-    public Publisher(String name, String street, String city, String state, String postalCode, String phone, String email) {
-        this.name = name;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-        this.phone = phone;
-        this.email = email;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int publisherId) {
+        this.id = publisherId;
     }
 
     public int getPublisherId() {
@@ -119,7 +123,13 @@ public class Publisher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publisher publisher = (Publisher) o;
-        return Objects.equals(name, publisher.name) && Objects.equals(street, publisher.street) && Objects.equals(city, publisher.city) && Objects.equals(state, publisher.state) && Objects.equals(postalCode, publisher.postalCode) && Objects.equals(phone, publisher.phone) && Objects.equals(email, publisher.email);
+        return Objects.equals(name, publisher.name) &&
+                Objects.equals(street, publisher.street) &&
+                Objects.equals(city, publisher.city) &&
+                Objects.equals(state, publisher.state) &&
+                Objects.equals(postalCode, publisher.postalCode) &&
+                Objects.equals(phone, publisher.phone) &&
+                Objects.equals(email, publisher.email);
     }
 
     @Override

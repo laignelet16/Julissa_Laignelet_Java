@@ -14,7 +14,6 @@ import javax.persistence.Table;
 @Table(name="author")
 public class Author {
     @Id
-    @Column(name="author_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
@@ -27,6 +26,18 @@ public class Author {
     private String email;
 
     public Author() {}
+
+    public Author(String firstName, String lastName, String street, String city, String state, String postalCode, String phone, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public Author(int id, String firstName, String lastName, String street, String city, String state, String postalCode, String phone, String email) {
         this.id = id;
         this.firstName = firstName;
@@ -39,15 +50,12 @@ public class Author {
         this.email = email;
     }
 
-    public Author(String firstName, String lastName, String street, String city, String state, String postalCode, String phone, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.street = street;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-        this.phone = phone;
-        this.email = email;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int authorId) {
+        this.id = authorId;
     }
 
     public int getAuthorId() {
