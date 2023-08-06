@@ -4,13 +4,12 @@ import com.company.bookstore.models.Publisher;
 import com.company.bookstore.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class PublisherController {
     @Autowired
     PublisherRepository publisherRepository;

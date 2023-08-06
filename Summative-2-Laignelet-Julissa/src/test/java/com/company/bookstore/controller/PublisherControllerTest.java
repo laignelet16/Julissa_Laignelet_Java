@@ -2,6 +2,8 @@ package com.company.bookstore.controller;
 
 import com.company.bookstore.models.Publisher;
 
+import com.company.bookstore.repository.AuthorRepository;
+import com.company.bookstore.repository.BookRepository;
 import com.company.bookstore.repository.PublisherRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,9 +30,17 @@ public class PublisherControllerTest {
     private ObjectMapper mapper = new ObjectMapper();
     @MockBean
     private PublisherRepository publisherRepository;
+    @MockBean
+    BookRepository bookRepository;
+    @MockBean
+    AuthorRepository authorRepository;
     Publisher publisher = new Publisher();
     @BeforeEach
     public void setUp() {
+        bookRepository.deleteAll();
+        authorRepository.deleteAll();
+        publisherRepository.deleteAll();
+
         publisher.setEmail("barbie@gmail.com");
         publisher.setPhone("315-645-7658");
         publisher.setCity("Hollywood");

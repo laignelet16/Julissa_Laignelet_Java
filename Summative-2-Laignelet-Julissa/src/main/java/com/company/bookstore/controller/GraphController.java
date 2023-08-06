@@ -12,7 +12,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @Controller
