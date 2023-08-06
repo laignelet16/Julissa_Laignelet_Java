@@ -11,10 +11,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static java.lang.reflect.Array.get;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(BookController.class)
 public class BookControllerTest {
     @Autowired
@@ -26,6 +37,7 @@ public class BookControllerTest {
     private BookRepository bookRepository;
 
     Book book = new Book();
+    Author author = new Author();
     @BeforeEach
     public void setUp() {
         Publisher publisher = new Publisher();
@@ -54,9 +66,56 @@ public class BookControllerTest {
     }
 
     @Test
-    public void addBookTest() throws Exception {
+    public void shouldAddBook() throws Exception {
         when(bookRepository.save(any(Book.class))).thenReturn(book);
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/books")
+                .content(mapper.writeValueAsString(book))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
     }
 
-    
+    @Test
+    public void shouldUpdateBook() throws Exception {
+        when(bookRepository.save(any(Book.class))).thenReturn(book);
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/books")
+                .content(mapper.writeValueAsString(book))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void shouldDeleteBook() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/books/{id}", 1))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void shouldGetBookByID() throws Exception {
+        when(bookRepository.findById(1)).thenReturn(Optional.of(book));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/books/{id}", 1))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldGetBooks() throws Exception {
+        when(bookRepository.findAll()).thenReturn(Arrays.asList(book));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/books"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldGetBooksWithAuthorId() throws Exception {
+        // Mock the behavior of bookRepository.findByAuthorId
+        when(bookRepository.findByAuthorId(author.getAuthorId())).thenReturn(Arrays.asList(book));
+
+        // Perform the mockMvc request with the authorId as a path variable
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/byAuthor/{authorId}", author.getAuthorId()))
+                .andExpect(status().isOk());
+    }
 }

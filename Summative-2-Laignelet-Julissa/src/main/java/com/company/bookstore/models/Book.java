@@ -109,11 +109,16 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && Double.compare(book.price, price) == 0 && Objects.equals(isbn, book.isbn) && Objects.equals(publishDate, book.publishDate) && Objects.equals(author, book.author) && Objects.equals(title, book.title) && Objects.equals(publisher, book.publisher);
+        return Objects.equals(isbn, book.isbn) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(price, book.price) &&
+                Objects.equals(publishDate, book.publishDate) &&
+                Objects.equals(publisher, book.publisher);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isbn, publishDate, author, title, publisher, price);
+        return Objects.hash(isbn, title, author, price, publishDate, publisher);
     }
 }
