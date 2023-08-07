@@ -32,7 +32,8 @@ public class AuthorRepositoryTest {
         author.setFirstName("Stephanie");
         author.setLastName("Perkins");
         author.setCity("Atlanta");
-        author.setState("Georgia");
+        author.setStreet("GoodVibes St.");
+        author.setState("GA");
         author.setPostalCode("54647");
         author.setPhone("451-765-8765");
         author.setEmail("perkins@writers.com");
@@ -49,7 +50,7 @@ public class AuthorRepositoryTest {
 
     @Test
     public void shouldUpdateAuthor() {
-        author.setState("Georgia");
+        author.setState("GA");
         authorRepository.save(author);
 
         Optional<Author> updateAuthor = authorRepository.findById(author.getId());
