@@ -33,7 +33,8 @@ public class PublisherRepositoryTest {
         publisher.setEmail("famous@gmail.com");
         publisher.setPhone("201-213-0657");
         publisher.setCity("Fort Lee");
-        publisher.setState("New Jersey");
+        publisher.setStreet("GoodVibes St.");
+        publisher.setState("NJ");
         publisher.setPostalCode("07456");
         publisher.setName("Penguin House");
 
