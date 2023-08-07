@@ -109,10 +109,10 @@ public class BookControllerTest {
     @Test
     public void shouldGetBooksWithAuthorId() throws Exception {
         // Mock the behavior of bookRepository.findByAuthorId
-        when(bookRepository.findByAuthorId(author.getAuthorId())).thenReturn(Arrays.asList(book));
+        when(bookRepository.findByAuthorId(author.getId())).thenReturn(Arrays.asList(book));
 
         // Perform the mockMvc request with the authorId as a path variable
-        mockMvc.perform(MockMvcRequestBuilders.get("/books/byAuthor/{authorId}", author.getAuthorId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/byAuthor/{authorId}", author.getId()))
                 .andExpect(status().isOk());
     }
 }
