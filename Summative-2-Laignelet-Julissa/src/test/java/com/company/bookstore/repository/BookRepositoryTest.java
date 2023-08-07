@@ -30,29 +30,31 @@ public class BookRepositoryTest {
         publisherRepository.deleteAll();
 
         book = new Book();
+
         Publisher publisher = new Publisher();
         publisher.setEmail("famous@gmail.com");
         publisher.setPhone("201-213-0657");
         publisher.setCity("Fort Lee");
-        publisher.setState("New Jersey");
+        publisher.setState("NJ");
         publisher.setPostalCode("07456");
         publisher.setName("Penguin House");
-
+        publisher.setStreet("Penguin St.");
         publisher = publisherRepository.save(publisher);
 
         author = new Author();
         author.setFirstName("Stephanie");
         author.setLastName("Perkins");
         author.setCity("Atlanta");
-        author.setState("Georgia");
+        author.setStreet("Penguin St.");
+        author.setState("GA");
         author.setPostalCode("54647");
         author.setPhone("451-765-8765");
         author.setEmail("perkins@writers.com");
 
         author = authorRepository.save(author);
 
-        book.setIsbn("10ave");
-        book.setPublishDate("October 31, 2022");
+        book.setIsbn("978-1234567890");
+        book.setPublishDate("2023-08-06");
         book.setPrice(12.99);
         book.setTitle("Live your life");
         book.setAuthor(author);
@@ -95,7 +97,8 @@ public class BookRepositoryTest {
         publisher.setEmail("famoso@gmail.com");
         publisher.setPhone("201-214-0657");
         publisher.setCity("Orlanda");
-        publisher.setState("Florida");
+        publisher.setStreet("GoodVibes St.");
+        publisher.setState("FL");
         publisher.setPostalCode("074568");
         publisher.setName("Florida House");
 
@@ -106,7 +109,7 @@ public class BookRepositoryTest {
         book2.setAuthor(author);
         book2.setTitle("You got this!");
         book2.setPrice(10.98);
-        book2.setPublishDate("May 30, 1999");
+        book2.setPublishDate("2023-08-06");
         book2.setPublisher(publisher); // Set the saved publisher in the book
 
         authorRepository.save(author);
