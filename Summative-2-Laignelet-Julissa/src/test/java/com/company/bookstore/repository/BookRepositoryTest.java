@@ -115,7 +115,7 @@ public class BookRepositoryTest {
         authorRepository.save(author);
         bookRepository.save(book2);
 
-        List<Book> books = bookRepository.findByAuthorId(author.getAuthorId());
+        List<Book> books = bookRepository.findByAuthorId(author.getId());
         assertTrue(books.contains(book));
         assertTrue(books.contains(book2));
     }
