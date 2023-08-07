@@ -6,10 +6,12 @@ import com.company.bookstore.models.Publisher;
 import com.company.bookstore.repository.AuthorRepository;
 import com.company.bookstore.repository.BookRepository;
 import com.company.bookstore.repository.PublisherRepository;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import javax.swing.text.html.Option;
@@ -44,7 +46,23 @@ public class GraphController {
 
     @QueryMapping
     public Publisher findPublisherById(@Argument int id) {
-        return publisherRepository.findById(id).orElse(null);
+        // Use the publisherRepository to find the publisher by ID
+        Publisher publisher = publisherRepository.findById(id).orElse(null);
+
+        // Fetch books for the publisher and authors for each book
+        if (publisher != null) {
+            List<Book> books = publisher.getBooks();
+            for (Book book : books) {
+                // Fetch author for each book
+                Author author = book.getAuthor();
+                // Set the author for the book
+                book.setAuthor(author);
+            }
+            // Set the list of books for the publisher
+            publisher.setBooks(books);
+        }
+
+        return publisher;
     }
 
     @QueryMapping
