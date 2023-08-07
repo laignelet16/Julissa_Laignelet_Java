@@ -3,7 +3,7 @@ package com.company.bookstore.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +24,9 @@ public class Publisher {
     private String postalCode;
     private String phone;
     private String email;
+
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+    private List<Book> books;
 
     public Publisher() {}
     public Publisher(String name, String street, String city, String state, String postalCode, String phone, String email) {
@@ -46,6 +49,13 @@ public class Publisher {
         this.email = email;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
     public int getId() {
         return id;
     }
