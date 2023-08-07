@@ -1,5 +1,6 @@
 package com.company.bookstore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -21,10 +22,12 @@ public class Book {
     private String publishDate;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "author_id")
     private Author author;
     private String title;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
     private double price;
