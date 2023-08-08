@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public class BookRepositoryTest {
         publisher.setPostalCode("07456");
         publisher.setName("Penguin House");
         publisher.setStreet("Penguin St.");
+        publisher.setBooks(new ArrayList<>());
         publisher = publisherRepository.save(publisher);
 
         author = new Author();
@@ -50,6 +52,7 @@ public class BookRepositoryTest {
         author.setPostalCode("54647");
         author.setPhone("451-765-8765");
         author.setEmail("perkins@writers.com");
+        author.setBooks(new ArrayList<>());
 
         author = authorRepository.save(author);
 
@@ -57,8 +60,8 @@ public class BookRepositoryTest {
         book.setPublishDate("2023-08-06");
         book.setPrice(12.99);
         book.setTitle("Live your life");
-        book.setAuthor(author);
-        book.setPublisher(publisher);
+        book.setAuthorId(author.getId());
+        book.setPublisherId(publisher.getId());
 
         book = bookRepository.save(book);
     }
@@ -106,16 +109,16 @@ public class BookRepositoryTest {
 
         Book book2 = new Book();
         book2.setIsbn("LifeIsGood");
-        book2.setAuthor(author);
+        book2.setAuthorId(author.getId());
         book2.setTitle("You got this!");
         book2.setPrice(10.98);
         book2.setPublishDate("2023-08-06");
-        book2.setPublisher(publisher); // Set the saved publisher in the book
+        book2.setPublisherId(publisher.getId()); // Set the saved publisher in the book
 
         authorRepository.save(author);
         bookRepository.save(book2);
 
-        List<Book> books = bookRepository.findByAuthorId(author.getAuthorId());
+        List<Book> books = bookRepository.findByAuthorId(author.getId());
         assertTrue(books.contains(book));
         assertTrue(books.contains(book2));
     }

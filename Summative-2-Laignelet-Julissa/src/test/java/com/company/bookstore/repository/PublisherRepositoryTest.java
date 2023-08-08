@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,6 +38,7 @@ public class PublisherRepositoryTest {
         publisher.setState("NJ");
         publisher.setPostalCode("07456");
         publisher.setName("Penguin House");
+        publisher.setBooks(new ArrayList<>());
 
         publisher = publisherRepository.save(publisher); // Save the publisher after setting its attribute
     }

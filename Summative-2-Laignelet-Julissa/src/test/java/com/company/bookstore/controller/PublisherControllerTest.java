@@ -44,7 +44,7 @@ public class PublisherControllerTest {
         publisher.setEmail("barbie@gmail.com");
         publisher.setPhone("315-645-7658");
         publisher.setCity("Hollywood");
-        publisher.setState("California");
+        publisher.setState("CA");
         publisher.setPostalCode("10002");
         publisher.setStreet("1400 Barbieland");
         publisher.setName("Barbie World");

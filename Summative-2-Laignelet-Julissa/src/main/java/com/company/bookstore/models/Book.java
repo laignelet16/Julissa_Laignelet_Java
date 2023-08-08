@@ -1,6 +1,5 @@
 package com.company.bookstore.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name="Book")
+@Table(name="book")
 public class Book {
     @Id
     @Column(name = "book_id")
@@ -21,33 +20,30 @@ public class Book {
     private String isbn;
     private String publishDate;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "author_id")
-    private Author author;
+    @Column(name = "author_id")
+    private int authorId;
     private String title;
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
+
+    @Column(name = "publisher_id")
+    private int publisherId;
     private double price;
 
     public Book() {}
-    public Book(String isbn, String publishDate, Author author, String title, Publisher publisher, double price) {
+    public Book(String isbn, String publishDate, int authorId, String title, int publisherId, double price) {
         this.isbn = isbn;
         this.publishDate = publishDate;
-        this.author = author;
+        this.authorId = authorId;
         this.title = title;
-        this.publisher = publisher;
+        this.publisherId = publisherId;
         this.price = price;
     }
-    public Book(int id, String isbn, String publishDate, Author author, String title, Publisher publisher, double price) {
+    public Book(int id, String isbn, String publishDate, int authorId, String title, int publisherId, double price) {
         this.id = id;
         this.isbn = isbn;
         this.publishDate = publishDate;
-        this.author = author;
+        this.authorId = authorId;
         this.title = title;
-        this.publisher = publisher;
+        this.publisherId = publisherId;
         this.price = price;
     }
 
@@ -75,12 +71,12 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public Author getAuthor() {
-        return author;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     public String getTitle() {
@@ -91,12 +87,12 @@ public class Book {
         this.title = title;
     }
 
-    public Publisher getPublisher() {
-        return publisher;
+    public int getPublisherId() {
+        return publisherId;
     }
 
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
     }
 
     public double getPrice() {
@@ -114,14 +110,14 @@ public class Book {
         Book book = (Book) o;
         return Objects.equals(isbn, book.isbn) &&
                 Objects.equals(title, book.title) &&
-                Objects.equals(author, book.author) &&
+                Objects.equals(authorId, book.authorId) &&
                 Objects.equals(price, book.price) &&
                 Objects.equals(publishDate, book.publishDate) &&
-                Objects.equals(publisher, book.publisher);
+                Objects.equals(publisherId, book.publisherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isbn, title, author, price, publishDate, publisher);
+        return Objects.hash(isbn, title, authorId, price, publishDate, publisherId);
     }
 }

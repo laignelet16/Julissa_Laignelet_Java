@@ -6,28 +6,27 @@ import com.company.bookstore.models.Publisher;
 import com.company.bookstore.repository.AuthorRepository;
 import com.company.bookstore.repository.BookRepository;
 import com.company.bookstore.repository.PublisherRepository;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
-import javax.swing.text.html.Option;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class GraphController {
 
     @Autowired
-    PublisherRepository publisherRepository;
+    private PublisherRepository publisherRepository;
 
     @Autowired
-    AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     @QueryMapping
     public Book findBookById(@Argument int id) {
@@ -46,23 +45,14 @@ public class GraphController {
 
     @QueryMapping
     public Publisher findPublisherById(@Argument int id) {
-        // Use the publisherRepository to find the publisher by ID
-        Publisher publisher = publisherRepository.findById(id).orElse(null);
-
-        // Fetch books for the publisher and authors for each book
-        if (publisher != null) {
-            List<Book> books = publisher.getBooks();
-            for (Book book : books) {
-                // Fetch author for each book
-                Author author = book.getAuthor();
-                // Set the author for the book
-                book.setAuthor(author);
-            }
-            // Set the list of books for the publisher
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(id);
+        if (optionalPublisher.isPresent()) {
+            Publisher publisher = optionalPublisher.get();
+            List<Book> books = bookRepository.findByPublisherId(publisher.getId());
             publisher.setBooks(books);
+            return publisher;
         }
-
-        return publisher;
+        return null;
     }
 
     @QueryMapping
@@ -72,7 +62,6 @@ public class GraphController {
 
     @MutationMapping
     public Publisher addPublisher (
-            @Argument int id,
             @Argument String name,
             @Argument String street,
             @Argument String city,
@@ -81,33 +70,15 @@ public class GraphController {
             @Argument String phone,
             @Argument String email
     ) {
-        Publisher newPublisher = new Publisher(id, name, street, city, state, postalCode, phone, email);
+        Publisher newPublisher = new Publisher(name, street, city, state, postalCode, phone, email);
+
+        // Fetch the list of books associated with the new publisher's ID (which will be generated upon saving)
+        List<Book> publisherBooks = bookRepository.findByPublisherId(newPublisher.getId());
+        newPublisher.setBooks(publisherBooks);
+
         return publisherRepository.save(newPublisher);
     }
 
-    @MutationMapping
-    public Publisher updatePublisher(
-            @Argument int id,
-            @Argument String name,
-            @Argument String street,
-            @Argument String city,
-            @Argument String state,
-            @Argument String postalCode,
-            @Argument String phone,
-            @Argument String email
-    ) {
-        Publisher updatePublisher = publisherRepository.findById(id).orElseThrow();
-
-        updatePublisher.setId(id);
-        updatePublisher.setName(name);
-        updatePublisher.setStreet(street);
-        updatePublisher.setCity(city);
-        updatePublisher.setState(state);
-        updatePublisher.setPostalCode(postalCode);
-        updatePublisher.setPhone(phone);
-        updatePublisher.setEmail(email);
-        return publisherRepository.save(updatePublisher);
-    }
 
     @MutationMapping
     public void deletePublisherById(@Argument int id) {
@@ -116,7 +87,6 @@ public class GraphController {
 
     @MutationMapping
     public Author addAuthor (
-            @Argument int id,
             @Argument String firstName,
             @Argument String lastName,
             @Argument String street,
@@ -124,38 +94,18 @@ public class GraphController {
             @Argument String state,
             @Argument String postalCode,
             @Argument String phone,
-            @Argument String email) {
-        Author newAuthor = new Author(id, firstName, lastName, street, city, state, postalCode, phone, email);
+            @Argument String email
+    ) {
+
+        Author newAuthor = new Author(firstName, lastName, street, city, state, postalCode, phone, email);
+
+        // Fetch the list of books associated with the new author's ID (which will be generated upon saving)
+        List<Book> authorBooks = bookRepository.findByAuthorId(newAuthor.getId());
+        newAuthor.setBooks(authorBooks);
+
         return authorRepository.save(newAuthor);
     }
 
-    @MutationMapping
-    public Author updateAuthor(
-            @Argument int id,
-            @Argument String firstName,
-            @Argument String lastName,
-            @Argument String street,
-            @Argument String city,
-            @Argument String state,
-            @Argument String postalCode,
-            @Argument String phone,
-            @Argument String email) {
-
-        //checks if the author already exists
-        Author updateAuthor = authorRepository.findById(id).orElseThrow();
-
-        updateAuthor.setAuthorId(id);
-        updateAuthor.setFirstName(firstName);
-        updateAuthor.setLastName(lastName);
-        updateAuthor.setStreet(street);
-        updateAuthor.setCity(city);
-        updateAuthor.setState(state);
-        updateAuthor.setPostalCode(postalCode);
-        updateAuthor.setPhone(phone);
-        updateAuthor.setEmail(email);
-
-        return authorRepository.save(updateAuthor);
-    }
 
     @MutationMapping
     public void deleteAuthorById(@Argument int id) {
@@ -171,12 +121,61 @@ public class GraphController {
             @Argument int publisherId,
             @Argument double price
     ) {
-        // Check if Author and Publisher exist based on the provided IDs
-        Author author = authorRepository.findById(authorId).orElseThrow();
-        Publisher publisher = publisherRepository.findById(publisherId).orElseThrow();
-
-        Book newBook = new Book(isbn, publishDate, author, title, publisher, price);
+        Book newBook = new Book(isbn, publishDate, authorId, title, publisherId, price);
         return bookRepository.save(newBook);
+    }
+
+    @MutationMapping
+    public void deleteBookById(@Argument int id) {
+        bookRepository.deleteById(id);
+    }
+
+    @MutationMapping
+    public Publisher updatePublisher(
+            @Argument int id,
+            @Argument String name,
+            @Argument String street,
+            @Argument String city,
+            @Argument String state,
+            @Argument String postalCode,
+            @Argument String phone,
+            @Argument String email
+    ) {
+        Publisher updatePublisher = publisherRepository.findById(id).orElseThrow();
+        updatePublisher.setName(name);
+        updatePublisher.setStreet(street);
+        updatePublisher.setCity(city);
+        updatePublisher.setState(state);
+        updatePublisher.setPostalCode(postalCode);
+        updatePublisher.setPhone(phone);
+        updatePublisher.setEmail(email);
+        return publisherRepository.save(updatePublisher);
+    }
+
+    @MutationMapping
+    public Author updateAuthor(
+            @Argument int id,
+            @Argument String firstName,
+            @Argument String lastName,
+            @Argument String street,
+            @Argument String city,
+            @Argument String state,
+            @Argument String postalCode,
+            @Argument String phone,
+            @Argument String email
+    ) {
+
+        Author updateAuthor = authorRepository.findById(id).orElseThrow();
+
+        updateAuthor.setFirstName(firstName);
+        updateAuthor.setLastName(lastName);
+        updateAuthor.setStreet(street);
+        updateAuthor.setCity(city);
+        updateAuthor.setState(state);
+        updateAuthor.setPostalCode(postalCode);
+        updateAuthor.setPhone(phone);
+        updateAuthor.setEmail(email);
+        return authorRepository.save(updateAuthor);
     }
 
 
@@ -190,24 +189,41 @@ public class GraphController {
             @Argument int publisherId,
             @Argument double price
     ) {
-        //makes sures Author and publishers exist
+        // Check if Author and Publisher exist based on the provided IDs
         Author author = authorRepository.findById(authorId).orElseThrow();
         Publisher publisher = publisherRepository.findById(publisherId).orElseThrow();
         Book updateBook = bookRepository.findById(id).orElseThrow();
 
-        updateBook.setId(id);
         updateBook.setIsbn(isbn);
         updateBook.setPublishDate(publishDate);
-        updateBook.setAuthor(author);
+        updateBook.setAuthorId(authorId);
         updateBook.setTitle(title);
-        updateBook.setPublisher(publisher);
+        updateBook.setPublisherId(publisherId);
         updateBook.setPrice(price);
 
         return bookRepository.save(updateBook);
     }
 
-    @MutationMapping
-    public void deleteBookById(@Argument int id) {
-        bookRepository.deleteById(id);
+    @SchemaMapping
+    public Author author (Book book) {
+        Optional<Author> returnVal = authorRepository.findById(book.getAuthorId());
+        if (returnVal.isPresent()) {
+            return returnVal.get();
+        }else {
+            return null;
+
+        }
     }
+
+    @SchemaMapping
+    public Publisher publisher (Book book) {
+        Optional<Publisher> returnVal = publisherRepository.findById(book.getPublisherId());
+        if (returnVal.isPresent()) {
+            return returnVal.get();
+        }else {
+            return null;
+
+        }
+    }
+
 }

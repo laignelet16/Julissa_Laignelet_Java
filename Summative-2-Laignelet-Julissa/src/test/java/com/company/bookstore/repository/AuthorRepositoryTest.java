@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +23,7 @@ public class AuthorRepositoryTest {
     @Autowired
     PublisherRepository publisherRepository;
     private Author author;
+    private Publisher publisher;
 
     @BeforeEach
     public void setUp() {
@@ -37,8 +40,22 @@ public class AuthorRepositoryTest {
         author.setPostalCode("54647");
         author.setPhone("451-765-8765");
         author.setEmail("perkins@writers.com");
+        author.setBooks(new ArrayList<>());
 
         author = authorRepository.save(author);
+
+
+        publisher = new Publisher(); // Initialize the publisher object first
+
+        publisher.setEmail("famous@gmail.com");
+        publisher.setPhone("201-213-0657");
+        publisher.setCity("Fort Lee");
+        publisher.setStreet("GoodVibes St.");
+        publisher.setState("NJ");
+        publisher.setPostalCode("07456");
+        publisher.setName("Penguin House");
+
+        publisher = publisherRepository.save(publisher);
     }
 
     // None of them work give an error
@@ -50,11 +67,18 @@ public class AuthorRepositoryTest {
 
     @Test
     public void shouldUpdateAuthor() {
-        author.setState("GA");
+        author.setState("NM");
+
+        // Fetch the associated books
+        List<Book> books = bookRepository.findByAuthorId(author.getId());
+
+        // Save the updated author
         authorRepository.save(author);
 
+        // Verify the update
         Optional<Author> updateAuthor = authorRepository.findById(author.getId());
-        assertEquals(author, updateAuthor.get());
+        assertTrue(updateAuthor.isPresent());
+        assertEquals("NM", updateAuthor.get().getState());
     }
 
     @Test

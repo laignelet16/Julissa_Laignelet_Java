@@ -1,6 +1,6 @@
 package com.company.bookstore.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name="Author")
+@Table(name="author")
 public class Author {
     @Id
     @Column(name="author_id")
@@ -26,7 +26,8 @@ public class Author {
     private String phone;
     private String email;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
+    @JoinColumn(name="author_id")
     private List<Book> books;
 
     public Author() {}
@@ -58,6 +59,16 @@ public class Author {
         return books;
     }
 
+    public void addBook(Book book) {
+        book.setAuthorId(this.id);
+        books.add(book);
+    }
+
+    public void removeBook(Book book) {
+        book.setAuthorId(-1);
+        books.remove(book);
+    }
+
     public void setBooks(List<Book> books) {
         this.books = books;
     }
@@ -68,10 +79,6 @@ public class Author {
 
     public void setId(int authorId) {
         this.id = authorId;
-    }
-
-    public int getAuthorId() {
-        return id;
     }
 
     public void setAuthorId(int authorId) {

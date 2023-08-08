@@ -29,7 +29,7 @@ type Book {
     publishDate: String!
     author: Author!
     title: String!
-    publisher: Publisher
+    publisher: Publisher!
     price: Float!
 }
 
@@ -52,11 +52,3 @@ type Mutation {
     deleteBookById(id: ID!): Boolean
     deletePublisherById(id: ID!): Boolean
 }
-
-
-#Get a publisher by id.
-#Including books for the publisher and authors for the books.
-#Get an author by id.
-#Including books by the author.
-#Get a book by id.
-#Including the author and publisher of the book.

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name="Publisher")
+@Table(name="publisher")
 public class Publisher {
     @Id
     @Column(name="publisher_id")
@@ -25,7 +25,8 @@ public class Publisher {
     private String phone;
     private String email;
 
-    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch= FetchType.EAGER)
+    @JoinColumn(name="publisher_id")
     private List<Book> books;
 
     public Publisher() {}
