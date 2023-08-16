@@ -44,7 +44,6 @@ public class AuthorRepositoryTest {
 
         author = authorRepository.save(author);
 
-
         publisher = new Publisher(); // Initialize the publisher object first
 
         publisher.setEmail("famous@gmail.com");
